@@ -1,16 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>PhotoApp</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "PhotoApp" %></title>
     <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
+    <%= stylesheet_link_tag "application", media: "all" %>
+
+    <%= javascript_include_tag "application" %>
   </head>
-
   <body>
-    <%= yield %>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-static-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">PhotoApp</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item"><%= link_to "Link1", "/path1", class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to "Link2", "/path2", class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to "Link3", "/path3", class: "nav-link" %></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container my-4">
+      <div class="row">
+        <div class="col-lg-9">
+          <%= bootstrap_flash %>
+          <%= yield %>
+        </div>
+        <div class="col-lg-3">
+          <div class="bg-light p-3 rounded">
+            <h3>Sidebar</h3>
+            <ul class="nav flex-column">
+              <li class="nav-item"><%= link_to "Link1", "/path1", class: "nav-link" %></li>
+              <li class="nav-item"><%= link_to "Link2", "/path2", class: "nav-link" %></li>
+              <li class="nav-item"><%= link_to "Link3", "/path3", class: "nav-link" %></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <footer class="mt-4">
+        <p>&copy; Company 2024</p>
+      </footer>
+    </div> <!-- /container -->
+
+    <!-- Bootstrap 5 JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
   </body>
 </html>
