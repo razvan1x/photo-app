@@ -25,6 +25,22 @@
             <li class="nav-item"><%= link_to "Link2", "/path2", class: "nav-link" %></li>
             <li class="nav-item"><%= link_to "Link3", "/path3", class: "nav-link" %></li>
           </ul>
+          <ul class="nav col-md-4 justify-content-end">
+            <% if current_user %>
+              <li class="nav-item col-md-8 d-flex align-items-center user-name">
+                <%= link_to ('<i class="fa fa-user"></i> ' + truncate(current_user.email, length: 25)).html_safe, 
+                      edit_user_registration_path, title: 'Edit Profile', class: 'nav-link' %>
+              </li>
+              <li class="col-md-1"></li>
+              <li class="nav-item col-md-3 logout">
+                <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-xs btn-danger" %>
+              </li>
+            <% else %>
+              <li class="nav-item col-md-4">
+                <%= link_to 'Sign In', new_user_session_path, class: 'btn btn-primary', title: 'Sign In' %>
+              </li>
+            <% end %>
+          </ul>
         </div>
       </div>
     </nav>
@@ -34,16 +50,6 @@
         <div class="col-lg-9">
           <%= bootstrap_flash %>
           <%= yield %>
-        </div>
-        <div class="col-lg-3">
-          <div class="bg-light p-3 rounded">
-            <h3>Sidebar</h3>
-            <ul class="nav flex-column">
-              <li class="nav-item"><%= link_to "Link1", "/path1", class: "nav-link" %></li>
-              <li class="nav-item"><%= link_to "Link2", "/path2", class: "nav-link" %></li>
-              <li class="nav-item"><%= link_to "Link3", "/path3", class: "nav-link" %></li>
-            </ul>
-          </div>
         </div>
       </div>
 
