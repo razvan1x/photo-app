@@ -1,6 +1,10 @@
+<script language="Javascript">
+  Stripe.setPublishableKey("<%= ENV['STRIPE_TEST_PUBLISHABLE_KEY'] %>");
+</script>
+
 <h1><%= t('.sign_up') %></h1>
 
-<%= form_with model: resource, url: registration_path(resource_name), local: true do |f| %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'cc_form' }) do |f| %>
   <!-- Afișare mesaje de eroare -->
   <%= bootstrap_devise_error_messages! %>
 
@@ -10,7 +14,6 @@
     <%= f.email_field :email, autofocus: true, autocomplete: 'email', class: 'form-control' %>
   </div>
 
-  <!-- Parolă -->
   <div class="mb-3">
     <%= f.label :password, class: 'form-label' %>
     <%= f.password_field :password, autocomplete: 'current-password', class: 'form-control' %>
@@ -20,12 +23,40 @@
     <% end %>
   </div>
 
-  <!-- Confirmare Parolă -->
   <div class="mb-3">
     <%= f.label :password_confirmation, class: 'form-label' %>
     <%= f.password_field :password_confirmation, autocomplete: 'current-password', class: 'form-control' %>
   </div>
-
+  <%= fields_for( :payment ) do |p| %>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        <%= p.label :card_number, "Card Number", data: { stripe: 'label' }, class: "form-label" %>
+        <%= p.text_field :card_number, class: "form-control", required: true, data: { stripe: 'number' } %>
+      </div>
+  
+      <div class="col-md-2 mb-3">
+        <%= p.label :card_cvv, "Card CVV", data: { stripe: 'label' }, class: "form-label" %>
+        <%= p.text_field :card_cvv, class: "form-control", required: true, data: { stripe: 'cvv' } %>
+      </div>
+  
+      <div class="col-md-6 mb-3">
+        <%= p.label :card_expires, "Card Expires", data: { stripe: 'label' }, class: "form-label" %>
+        <div class="row">
+          <div class="col-md-6">
+            <%= p.select :card_expires_month, options_for_select(Payment.month_options),
+                         { include_blank: 'Month' },
+                         class: "form-select", required: true, "data-stripe" => "exp-month" %>
+          </div>
+          <div class="col-md-6">
+            <%= p.select :card_expires_year, options_for_select(Payment.year_options.push),
+                         { include_blank: 'Year' },
+                         class: "form-select", required: true, data: { stripe: "exp-year" } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  
   <!-- Submit -->
   <div class="mb-3">
     <%= f.submit t('.sign_up'), class: 'btn btn-primary' %>
