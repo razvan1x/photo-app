@@ -40,6 +40,10 @@ gem 'bootstrap'
 gem 'devise-bootstrap-views'
 gem "sassc-rails"
 gem 'stripe'
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'simple_form'
+
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
