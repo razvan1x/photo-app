@@ -1,10 +1,26 @@
-<p style="color: green"><%= notice %></p>
+<%- model_class = Image -%>
+<div class="page-header">
+  <h1><%= t('.title', default: model_class.model_name.human.titleize) %></h1>
+</div>
 
-<%= render @image %>
+<dl class="row">
+  <dt class="col-sm-3"><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+  <dd class="col-sm-9"><%= @image.name %></dd>
 
-<div>
-  <%= link_to "Edit this image", edit_image_path(@image) %> |
-  <%= link_to "Back to images", images_path %>
+  <% if @image.picture? %>
+    <dt class="col-sm-3"></dt>
+    <dd class="col-sm-9">
+      <%= image_tag(@image.picture.url, class: "img-fluid", alt: @image.name, style: "max-width: 300px; height: auto;") %>
+    </dd>
+  <% end %>
+</dl>
 
-  <%= button_to "Destroy this image", @image, method: :delete %>
+<div class="mt-3">
+  <%= link_to t('.back', default: t("helpers.links.back")), images_path, class: 'btn btn-secondary' %>
+  <%= link_to t('.edit', default: t("helpers.links.edit")), edit_image_path(@image), class: 'btn btn-warning' %>
+  <%= link_to t('.destroy', default: t("helpers.links.destroy")),
+              image_path(@image),
+              method: 'delete',
+              data: { confirm: t('.confirm', default: t("helpers.links.confirm", default: 'Are you sure?')) },
+              class: 'btn btn-danger' %>
 </div>
